@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Boston Longevity Hub</title>
+  <meta name="description" content="Upcoming events, and the labs, companies, and organizations working on longevity, aging, and development research in Greater Boston.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="wordmark" href="#top">
+        <svg class="wordmark-glyph" viewBox="0 0 28 20" aria-hidden="true"><path d="M1 2 H9 V7 H14 V12 H18 V17 H27"/></svg>
+        <span>Boston Longevity Hub</span>
+      </a>
+      <nav class="site-nav" aria-label="Main" id="nav">
+        <a href="#events">Events</a>
+        <a href="#map">Map</a>
+        <a href="#directory">Directory</a>
+        <a href="#about">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="wrap hero-inner">
+        <div class="hero-text">
+          <h1>Boston Longevity Hub</h1>
+          <p class="lede" id="tagline"></p>
+          <p class="hero-actions">
+            <a class="button button-primary" href="#events">Upcoming events</a>
+            <a class="button" href="#" id="ics-link" download="boston-longevity.ics">Add to calendar</a>
+          </p>
+        </div>
+        <figure class="curve" aria-hidden="true">
+          <svg id="curve" viewBox="0 0 560 360" preserveAspectRatio="xMidYMid meet"></svg>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section band" id="events">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Events</h2>
+          <p class="section-intro" id="events-intro">Conferences, symposia, hackathons, and community events on aging research in and around Boston.</p>
+        </div>
+        <div class="calendar" id="calendar"></div>
+        <div class="chips" id="when" role="group" aria-label="When">
+          <button type="button" class="chip" data-when="upcoming" aria-pressed="true">Upcoming</button>
+          <button type="button" class="chip" data-when="past" aria-pressed="false">Past</button>
+        </div>
+        <div class="events" id="event-list"></div>
+        <p class="empty" id="events-empty" hidden>No events to show here right now.</p>
+        <p class="section-foot" id="events-foot"></p>
+      </div>
+    </section>
+
+    <section class="section" id="map">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Map</h2>
+          <p class="section-intro">Where the events happen, and where the labs, companies, and organizations working on aging are based.</p>
+        </div>
+        <div class="legend" aria-hidden="true">
+          <span class="legend-item"><i class="dot dot-event"></i>Events</span>
+          <span class="legend-item"><i class="dot dot-lab"></i>Labs</span>
+          <span class="legend-item"><i class="dot dot-company"></i>Companies</span>
+          <span class="legend-item"><i class="dot dot-organization"></i>Organizations</span>
+        </div>
+        <div class="map" id="leaflet-map"></div>
+      </div>
+    </section>
+
+    <section class="section band" id="directory">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Directory</h2>
+          <p class="section-intro">Labs, companies, and organizations working on longevity, aging, and development research and technologies in Greater Boston.</p>
+        </div>
+        <div class="dir-tools">
+          <input type="search" id="dir-search" placeholder="Search by name, person, or topic" aria-label="Search the directory" autocomplete="off">
+          <span class="dir-count" id="dir-count" aria-live="polite"></span>
+        </div>
+        <div id="directory-list"></div>
+        <p class="empty" id="dir-empty" hidden>Nothing matches that search.</p>
+        <p class="section-foot" id="dir-foot"></p>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="wrap about-inner">
+        <h2>About the Hub</h2>
+        <div class="prose">
+          <p>We are aging researchers in the Greater Boston area and organizers of meetings in the field. This site brings together information about upcoming and past events, and links to the companies, labs, and organizations working on longevity, aging, and development research and technologies across the region.</p>
+          <p>If your group or event is missing, or if something here is out of date, let us know and we will add or correct it. We are also glad to hear from people interested in partnering on activities in Boston.<span id="contact"></span></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p><strong>Boston Longevity Hub</strong></p>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="#events">Events</a>
+        <a href="#map">Map</a>
+        <a href="#directory">Directory</a>
+        <a href="#about">About</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="" defer></script>
+  <script src="data.js"></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
