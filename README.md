@@ -1,21 +1,37 @@
-# Boston Longevity Hub — v2
+# Boston Longevity Hub
 
-Static version of the site: `index.html`, `style.css`, `app.js` and `data.js`. No build step.
-To open it locally, just double-click `index.html` (the map and fonts are loaded from the network).
+Static site: `index.html`, `style.css`, `render.js`, `app.js`, `data.js`, plus `build.js` (optional prerender step).
+To open it locally, double-click `index.html` (the map and fonts are loaded from the network).
 
 ## How to update
 
 All content lives in a single file — **`data.js`**:
 
-- `SITE` — tagline, contact e-mail, links to forms, map center.
-- `EVENTS` — events. One entry = one `{ ... }` object. Fields are described in a comment in the file.
-  `featured: true` highlights key events, `draft: true` hides an entry.
-- `PLACES` — labs, companies and organizations (`type: "lab" | "company" | "organization"`).
+- `SITE` — tagline, contact e-mail, sign-up / submission form links, map center, and the `week` block
+  that defines Boston Longevity Week (dates, "and beyond" window, intro text).
+- `EVENTS` — events. One entry = one `{ ... }` object; fields are described in a comment in the file.
+  `host` is required and is shown as "Organized by" on every card, so that nobody assumes the Hub runs the event.
+  `featured: true` marks the anchor events of the Week (large map marker, highlighted card); `draft: true` hides an entry.
+- `PLACES` — companies and organizations in the Community directory (`type: "company" | "organization" | "lab"`).
+  Research labs are deliberately not listed yet.
 
 The order of entries doesn't matter: the site sorts events by date and the directory by name.
-The "Add to calendar" button builds an `.ics` file from `EVENTS` automatically.
+The "Add all to my calendar" button builds an `.ics` file from `EVENTS` automatically.
 
-To preview how the site looks on a specific day: `index.html?today=2026-10-07`.
+**After editing `data.js`, run `node build.js`.** This writes the event program, calendar, and directory
+into `index.html` as static HTML so search engines and link previews see real content (the browser
+still re-renders everything live on load, so the site works without this step, just with empty markup for crawlers).
+
+To preview the site as of a specific day: `index.html?today=2026-10-07`.
+
+## Activating "Join" and submissions
+
+In `SITE`, fill in one or more of:
+
+- `joinFormUrl` — a mailing-list sign-up page (Google Form, Buttondown, Mailchimp…); the Join form sends people there.
+- `contactEmail` — used as a fallback for Join (opens a pre-filled e-mail) and shown as the contact address.
+- `eventFormUrl`, `placeFormUrl` — forms for submitting an event or adding a group; every
+  "Submit an event" / "Add your group" link points there when set, and to the Join section otherwise.
 
 ## Publishing
 
