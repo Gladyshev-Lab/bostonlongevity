@@ -1,23 +1,23 @@
 # Boston Longevity Hub — v2
 
-Статическая версия сайта: `index.html`, `style.css`, `app.js` и `data.js`. Без сборки.
-Открыть локально можно просто двойным кликом по `index.html` (карта и шрифты подгружаются из сети).
+Static version of the site: `index.html`, `style.css`, `app.js` and `data.js`. No build step.
+To open it locally, just double-click `index.html` (the map and fonts are loaded from the network).
 
-## Как обновлять
+## How to update
 
-Всё содержимое в одном файле — **`data.js`**:
+All content lives in a single file — **`data.js`**:
 
-- `SITE` — слоган, e-mail для связи, ссылки на формы, центр карты.
-- `EVENTS` — события. Одна запись = один объект `{ ... }`. Поля описаны в комментарии в файле.
-  `featured: true` выделяет главные события, `draft: true` скрывает запись.
-- `PLACES` — лаборатории, компании и организации (`type: "lab" | "company" | "organization"`).
+- `SITE` — tagline, contact e-mail, links to forms, map center.
+- `EVENTS` — events. One entry = one `{ ... }` object. Fields are described in a comment in the file.
+  `featured: true` highlights key events, `draft: true` hides an entry.
+- `PLACES` — labs, companies and organizations (`type: "lab" | "company" | "organization"`).
 
-Порядок записей не важен: сайт сам сортирует события по дате, справочник по имени.
-Кнопка «Add to calendar» собирает `.ics` из `EVENTS` автоматически.
+The order of entries doesn't matter: the site sorts events by date and the directory by name.
+The "Add to calendar" button builds an `.ics` file from `EVENTS` automatically.
 
-Посмотреть, как сайт выглядит в определённый день: `index.html?today=2026-10-07`.
+To preview how the site looks on a specific day: `index.html?today=2026-10-07`.
 
-## Публикация
+## Publishing
 
-Положить содержимое папки в корень репозитория и включить GitHub Pages (Deploy from a branch, `/ (root)`),
-либо загрузить папку на любой статический хостинг.
+Put the contents of the folder in the root of a repository and enable GitHub Pages (Deploy from a branch, `/ (root)`),
+or upload the folder to any static hosting.
