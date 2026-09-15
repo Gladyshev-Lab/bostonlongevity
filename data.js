@@ -7,7 +7,7 @@
 const SITE = {
   title: "Boston Longevity Hub",
   tagline: "Connecting Boston's aging and longevity community",
-  contactEmail: "",          // e.g. "hello@bostonlongevity.org" — leave "" to hide
+  contactEmail: "hello@bostonlongevity.org",          // e.g. "hello@bostonlongevity.org" — leave "" to hide
   joinFormUrl: "",           // mailing-list / sign-up form (Google Form, Buttondown, Mailchimp…), or ""
   eventFormUrl: "",          // form for submitting an event, or "" (falls back to the Join section)
   placeFormUrl: "",          // form for adding a company / organization, or "" (falls back to the Join section)
