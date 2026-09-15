@@ -63,28 +63,25 @@
   function beyondWeek(e, week) { return e.start > week.end && (!week.through || e.start <= week.through); }
   function weekEvents(events, week) { return events.filter(function (e) { return inWeek(e, week) || beyondWeek(e, week); }); }
 
-  // ---------- event card ----------
-  function dateBlock(e) {
-    var s = toDate(e.start), t = toDate(e.end);
-    var month = MONTHS[s.getMonth()] + (e.multi && t.getMonth() !== s.getMonth() ? "–" + MONTHS[t.getMonth()] : "");
-    var day = s.getDate() + (e.multi ? "–" + t.getDate() : "");
-    var wd = DAYS[s.getDay()] + (e.multi ? "–" + DAYS[t.getDay()] : "");
-    return '<div class="event-date"><span class="event-month">' + month + '</span><span class="event-day">' + day + '</span><span class="event-weekday">' + wd + " · " + s.getFullYear() + "</span></div>";
-  }
+  // ---------- event card (used in the day-by-day program; the day heading carries the date) ----------
   function meta(label, value) { return value ? "<div><dt>" + label + "</dt><dd>" + esc(value) + "</dd></div>" : ""; }
-  function eventCard(e) {
-    var cls = "event" + (e.featured ? " is-featured" : "") + (e.isPast ? " is-past" : "") + (e.isNow ? " is-now" : "");
-    var tags = (e.featured ? '<span class="tag tag-featured">Anchor event</span>' : "") +
+  function dayIndex(e, k) { return Math.round((toDate(k) - toDate(e.start)) / 864e5) + 1; }
+  function dayCount(e) { return Math.round((toDate(e.end) - toDate(e.start)) / 864e5) + 1; }
+  // `day` = the day the card is shown under; multi-day events get one card per day
+  function eventCard(e, day) {
+    var n = day && e.multi ? dayIndex(e, day) : 1, total = e.multi ? dayCount(e) : 1;
+    var cls = "event" + (e.featured ? " is-featured" : "") + (e.isPast ? " is-past" : "") + (e.isNow ? " is-now" : "") + (n > 1 ? " is-continued" : "");
+    var tags = (e.multi ? '<span class="tag tag-day">Day ' + n + " of " + total + "</span>" : "") +
+      (e.featured ? '<span class="tag tag-featured">Anchor event</span>' : "") +
       (e.isNow ? '<span class="tag tag-now">Happening now</span>' : "") +
       '<span class="tag">' + esc(typeLabel(e.type)) + "</span>" +
       (e.inviteOnly ? '<span class="tag tag-invite">By invitation</span>' : "");
     var title = e.url ? '<a href="' + esc(e.url) + '">' + esc(e.title) + "</a>" : esc(e.title);
-    return '<article class="' + cls + '" id="' + e.id + '" data-start="' + e.start + '" data-end="' + e.end + '">' +
-      dateBlock(e) +
+    return '<article class="' + cls + '" id="' + e.id + (n > 1 ? "-day" + n : "") + '" data-start="' + e.start + '" data-end="' + e.end + '">' +
       '<div class="event-body"><p class="event-tags">' + tags + '</p><h3 class="event-title">' + title + "</h3>" +
       (e.subtitle ? '<p class="event-subtitle">' + esc(e.subtitle) + "</p>" : "") +
       (e.description ? '<p class="event-desc">' + esc(e.description) + "</p>" : "") +
-      '</div><dl class="event-meta">' + meta("Time", e.time) + meta("Where", e.venue) +
+      '</div><dl class="event-meta">' + (e.multi ? meta("Dates", shortRange(e.start, e.end)) : "") + meta("Time", e.time) + meta("Where", e.venue) +
       meta("Organized by", e.host || "See the event website") + "</dl></article>";
   }
 
@@ -131,20 +128,15 @@
   function program(events, week) {
     var html = "";
     for (var k = week.start; k <= week.end; k = addDays(k, 1)) {
-      var starting = events.filter(function (e) { return e.start === k; });
-      var continuing = events.filter(function (e) { return e.start < k && k <= e.end; });
-      if (!starting.length && !continuing.length) continue;
-      html += '<section class="day-group" id="day-' + k + '">' + dayHeading(k);
-      continuing.forEach(function (e) {
-        var n = Math.round((toDate(k) - toDate(e.start)) / 864e5) + 1, total = Math.round((toDate(e.end) - toDate(e.start)) / 864e5) + 1;
-        html += '<p class="continues"><a href="#' + e.id + '">' + esc(e.title) + "</a> continues · day " + n + " of " + total + "</p>";
-      });
-      if (starting.length) html += '<div class="events">' + starting.map(eventCard).join("") + "</div>";
+      var today = events.filter(function (e) { return e.start <= k && k <= e.end; });
+      if (!today.length) continue;
+      html += '<section class="day-group" id="day-' + k + '">' + dayHeading(k) +
+        '<div class="events">' + today.map(function (e) { return eventCard(e, k); }).join("") + "</div>";
       html += "</section>";
     }
     var beyond = events.filter(function (e) { return beyondWeek(e, week); });
     if (beyond.length) {
-      html += '<section class="day-group" id="day-beyond"><h3 class="day-heading day-heading-text">And beyond</h3><p class="day-note">Events in the days after the Week.</p><div class="events">' + beyond.map(eventCard).join("") + "</div></section>";
+      html += '<section class="day-group" id="day-beyond"><h3 class="day-heading day-heading-text">And beyond</h3><p class="day-note">Events in the days after the Week.</p><div class="events">' + beyond.map(function (e) { return eventCard(e, e.start); }).join("") + "</div></section>";
     }
     return html;
   }
