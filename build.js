@@ -21,6 +21,7 @@ const upcoming = events.filter((e) => !e.isPast);
 
 const blocks = {
   anchors: R.anchors(events, ctx.SITE.week),
+  featured: R.featured(events, ctx.SITE.week),
   program: R.program(events, ctx.SITE.week),
   grid: R.calendarGrid(upcoming, NOW),
   rows: R.eventRows(upcoming),

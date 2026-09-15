@@ -44,7 +44,12 @@ const SITE = {
 //                 every card so that no one assumes the Hub runs the event
 //    url          event website
 //    description  one or two sentences
-//    featured     true = anchor event of the Week (large marker, highlighted card)
+//    featured     true = anchor event of the Week (large marker, highlighted card,
+//                 shown under "Featured Conferences")
+//    focus        one line on the scope, for featured conferences
+//    programUrl   link to the program; registerUrl  link to registration
+//    program      forums / workshops / tracks per day, for featured conferences:
+//                 [{ date: "YYYY-MM-DD", tracks: [{ name, room, items: [..] }] }]
 //    inviteOnly   true = attendance by invitation
 //    lat, lng     map coordinates; leave out to keep an event off the map
 //    draft        true = not shown on the site
@@ -55,14 +60,32 @@ const EVENTS = [
     title: "ARDD 2026",
     subtitle: "Aging Research & Drug Discovery",
     start: "2026-10-01", end: "2026-10-03",
-    time: "8 AM - 9 PM",
     type: "conference",
-    venue: "Rubenstein Treehouse, Harvard University",
+    venue: "David Rubenstein Treehouse, Harvard University, Boston",
     host: "ARDD organizing committee",
     url: "https://agingpharma.org/",
+    programUrl: "https://agingpharma.org/program2026",
+    registerUrl: "https://agingpharma.org/registration",
+    focus: "Aging biology, drug discovery, AI, biotechnology, and translation.",
     description: "The 13th annual meeting on the molecular biology of aging, longevity medicine, and drug discovery for age-related diseases.",
     featured: true,
-    lat: 42.3637, lng: -71.1205
+    lat: 42.3634, lng: -71.1266,
+    // Forums and workshops, from agingpharma.org/program2026
+    program: [
+      { date: "2026-10-01", tracks: [
+        { name: "Main track", room: "Canopy Hall, 3/F", items: ["Opening remarks and XPRIZE Healthspan overview", "Policy & regulatory address; ARPA-H PROSPR", "Clinical trials of therapeutics and regulatory mandates", "Clinical trials in diseases of aging", "AI & clinical trials in healthspan", "Healthspan in leading industries", "Aging research and pharma R&D productivity", "Clinical healthspan trials and practice"] },
+        { name: "XPRIZE Healthspan: Meet the Finalists Workshop", room: "Cedar Grove, 2/F, 9:20–11:30", items: ["Multimodal & clinical approach teams", "Drug & biologics teams"] }
+      ] },
+      { date: "2026-10-02", tracks: [
+        { name: "Main track", room: "Canopy Hall, 3/F", items: ["Reimagining drug discovery through the lens of aging biology", "Pharma chief executive panel", "Longevity therapeutics as an industry", "Aging clocks and GLP-1/GIP agonists", "New technology partnering & licensing", "Diseases as a pathway to longevity therapeutics", "Early-stage and growth-stage investor panels", "Epigenetic and biomarker insights"] },
+        { name: "AI in Drug Discovery Forum", room: "Cedar Grove, 2/F, all day", items: ["AI & computational design", "Large-scale datasets", "Neurodegeneration", "Systems immunology"] }
+      ] },
+      { date: "2026-10-03", tracks: [
+        { name: "Main track", room: "Canopy Hall, 3/F", items: ["Keynotes", "Search & evaluation strategies for longevity therapeutics", "Metabolic health and longevity", "Semaglutide and healthspan", "Aging research in pharma", "Therapeutic assets & licensing, late and early stage", "AMPK network activation", "Company talks", "Closing keynote and closing remarks"] },
+        { name: "Pet and Animal Longevity Forum", room: "Cedar Grove, 2/F, morning", items: ["Canine aging", "Commercializing pet longevity"] },
+        { name: "Virtual Cell in Time Forum", room: "Cedar Grove, 2/F, afternoon", items: ["Virtual biology models", "World models", "Single-cell approaches"] }
+      ] }
+    ]
   },
   {
     title: "Aging Theories",
@@ -113,14 +136,27 @@ const EVENTS = [
     title: "2026 Biomarkers of Aging Conference",
     subtitle: "Measuring the biology of aging",
     start: "2026-10-05", end: "2026-10-06",
-    time: "8 AM - 6 PM",
     type: "conference",
-    venue: "Veritas Science Center, Joseph B. Martin Conference Center at Harvard Medical School",
+    venue: "Joseph B. Martin Conference Center, Harvard Medical School, Boston",
     host: "Biomarkers of Aging Consortium",
     url: "https://www.agingconsortium.org/2026-conference",
+    programUrl: "https://www.agingconsortium.org/s/2026-Biomarkers-of-Aging-Program.pdf",
+    registerUrl: "https://www.agingconsortium.org/2026-tickets",
+    focus: "Aging biology, biological age, aging biomarkers, intervention assessment, and their translation to human health.",
     description: "The annual meeting on standardized, clinically validated measures of biological aging and their use in testing interventions.",
     featured: true,
-    lat: 42.3386, lng: -71.1028
+    lat: 42.3366, lng: -71.1039,
+    // Tracks and workshops, from the 2026 conference program
+    program: [
+      { date: "2026-10-05", tracks: [
+        { name: "Main Conference Track", room: "Auditorium", items: ["Welcome & opening", "Platforms, Screening & Molecular Detections", "Systems Aging", "Poster flash talks", "Immune Aging", "Stem Cells & Rejuvenation"] },
+        { name: "Replacement in Aging Track", room: "Pechet", items: ["Keynote lecture: Reconstructing the Human Body", "Engineering Living Replacement", "From Spare Parts to Systemic Rejuvenation", "Bringing Replacement Medicine to the Clinic"] }
+      ] },
+      { date: "2026-10-06", tracks: [
+        { name: "Main Conference Track", room: "Auditorium", items: ["Day 1 recap", "XPRIZE Healthspan Session", "Molecular, Digital & Functional Signatures of Aging", "Biomarkers in Trials & Population Cohorts", "Regulatory Panel", "Ethics & Future of Longevity", "Closing & Awards"] },
+        { name: "Gerophysics Track", room: "Pechet", items: ["Gerophysics I", "Living Matter", "Theories of Aging", "Whiteboard Session"] }
+      ] }
+    ]
   },
   {
     title: "Boston LongevityTech Night",

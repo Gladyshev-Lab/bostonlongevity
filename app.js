@@ -18,12 +18,17 @@
   var places = R.preparePlaces(PLACES);
   var week = SITE.week;
 
-  // ---------- forms & contact: point every "submit / add / join" link at the right place ----------
+  // ---------- forms & contact: point every "submit / add" link at the configured form ----------
   document.querySelectorAll("[data-form]").forEach(function (a) {
     var url = SITE[a.dataset.form];
     if (url) { a.href = url; a.target = "_blank"; a.rel = "noopener"; }
+    else if (SITE.contactEmail) { a.href = "mailto:" + SITE.contactEmail + "?subject=" + encodeURIComponent(a.textContent.trim() + " — Boston Longevity Hub"); }
   });
-  if (SITE.contactEmail) el("contact").innerHTML = ' · <a href="mailto:' + esc(SITE.contactEmail) + '">' + esc(SITE.contactEmail) + "</a>";
+  document.querySelectorAll("[data-form-note]").forEach(function (n) {
+    if (SITE[n.dataset.formNote]) return;
+    n.textContent = SITE.contactEmail ? "Opens an e-mail to " + SITE.contactEmail + "." : "The submission form opens shortly.";
+  });
+  if (SITE.contactEmail) el("contact").innerHTML = 'Questions? Write to <a href="mailto:' + esc(SITE.contactEmail) + '">' + esc(SITE.contactEmail) + "</a>.";
 
   // Join form: a mailing-list form if one is configured, otherwise an e-mail to the contact address.
   var joinForm = el("join-form"), joinNote = el("join-note");
@@ -46,10 +51,10 @@
     joinForm.hidden = true;
     joinNote.textContent = "E-mail sign-up is being set up and will open here shortly.";
   }
-  if (!SITE.contactEmail && !SITE.eventFormUrl && !SITE.placeFormUrl) document.querySelector(".join-links").hidden = true;
 
   // ---------- hero + week program ----------
   el("week-anchors").innerHTML = R.anchors(events, week);
+  el("featured-list").innerHTML = R.featured(events, week);
   el("program").innerHTML = R.program(events, week);
 
   // ---------- calendar: month grid + compact rows, upcoming / past ----------

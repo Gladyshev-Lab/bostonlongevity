@@ -26,6 +26,14 @@
     if (!end || end === start) return MONTHS[s.getMonth()] + " " + s.getDate();
     return MONTHS[s.getMonth()] + " " + s.getDate() + "–" + (t.getMonth() !== s.getMonth() ? MONTHS[t.getMonth()] + " " : "") + t.getDate();
   }
+  // "October 1–3, 2026", "October 30 – November 1, 2026", "October 4, 2026"
+  function longRange(start, end) {
+    var s = toDate(start), t = toDate(end || start);
+    if (!end || end === start) return MONTHS_LONG[s.getMonth()] + " " + s.getDate() + ", " + s.getFullYear();
+    if (t.getMonth() !== s.getMonth()) return MONTHS_LONG[s.getMonth()] + " " + s.getDate() + " – " + MONTHS_LONG[t.getMonth()] + " " + t.getDate() + ", " + t.getFullYear();
+    return MONTHS_LONG[s.getMonth()] + " " + s.getDate() + "–" + t.getDate() + ", " + s.getFullYear();
+  }
+  function shortDay(k) { var d = toDate(k); return DAYS[d.getDay()] + ", " + MONTHS[d.getMonth()] + " " + d.getDate(); }
   function longDay(k) { var d = toDate(k); return DAYS_LONG[d.getDay()] + ", " + MONTHS_LONG[d.getMonth()] + " " + d.getDate(); }
 
   // ---------- data preparation ----------
@@ -81,12 +89,38 @@
     var list = weekEvents(events, week);
     var featured = list.filter(function (e) { return e.featured; });
     var html = '<p class="anchors-label">Anchor events</p><ul class="anchors-list">' + featured.map(function (e) {
-      return '<li><a href="#' + e.id + '"><span class="anchors-date">' + shortRange(e.start, e.end) + '</span><span class="anchors-name">' + esc(e.title) + "</span>" +
+      return '<li><a href="#' + featuredId(e) + '"><span class="anchors-date">' + shortRange(e.start, e.end) + '</span><span class="anchors-name">' + esc(e.title) + "</span>" +
         (e.subtitle ? '<span class="anchors-sub">' + esc(e.subtitle) + "</span>" : "") + "</a></li>";
     }).join("") + "</ul>";
     var n = list.length;
     html += '<p class="anchors-count"><a href="#week">See all ' + n + ' events, day by day</a></p>';
     return html;
+  }
+
+  // ---------- Featured conferences: the anchor events with their forums / tracks ----------
+  function featuredId(e) { return "feat-" + slug(e.title); }
+  function featured(events, week) {
+    var list = weekEvents(events, week).filter(function (e) { return e.featured; });
+    return list.map(function (e) {
+      var days = (e.program || []).map(function (d) {
+        return "<div><dt>" + shortDay(d.date) + "</dt><dd>" + d.tracks.map(function (t) {
+          return '<p class="feat-track"><strong>' + esc(t.name) + "</strong>" + (t.room ? ' <span class="feat-room">' + esc(t.room) + "</span>" : "") +
+            (t.items && t.items.length ? '<br><span class="feat-items">' + t.items.map(esc).join(" · ") + "</span>" : "") + "</p>";
+        }).join("") + "</dd></div>";
+      }).join("");
+      return '<article class="feat' + (e.isPast ? " is-past" : "") + '" id="' + featuredId(e) + '">' +
+        '<p class="event-tags"><span class="tag tag-featured">Anchor event</span><span class="tag">' + esc(typeLabel(e.type)) + "</span>" + (e.isNow ? '<span class="tag tag-now">Happening now</span>' : "") + "</p>" +
+        '<h4 class="feat-title">' + (e.url ? '<a href="' + esc(e.url) + '">' + esc(e.title) + "</a>" : esc(e.title)) + "</h4>" +
+        (e.subtitle ? '<p class="feat-subtitle">' + esc(e.subtitle) + "</p>" : "") +
+        '<p class="feat-when">' + longRange(e.start, e.end) + (e.venue ? '<br><span class="feat-venue">' + esc(e.venue) + "</span>" : "") + "</p>" +
+        (e.focus ? '<p class="feat-focus">' + esc(e.focus) + "</p>" : "") +
+        '<p class="feat-actions">' +
+          (e.programUrl ? '<a class="button button-primary button-small" href="' + esc(e.programUrl) + '">View Program</a>' : "") +
+          (e.registerUrl ? '<a class="button button-small" href="' + esc(e.registerUrl) + '">Register</a>' : "") + "</p>" +
+        (days ? '<p class="feat-label">Forums, workshops, and tracks</p><dl class="feat-program">' + days + "</dl>" : "") +
+        '<p class="feat-org">Organized by <strong>' + esc(e.host || "see the event website") + "</strong></p>" +
+        "</article>";
+    }).join("");
   }
 
   // ---------- Week program: day by day, then "and beyond" ----------
@@ -176,6 +210,6 @@
   return {
     MONTHS: MONTHS, pad: pad, iso: iso, toDate: toDate, addDays: addDays, esc: esc, shortRange: shortRange, typeLabel: typeLabel,
     prepareEvents: prepareEvents, preparePlaces: preparePlaces, weekEvents: weekEvents,
-    eventCard: eventCard, anchors: anchors, program: program, calendarGrid: calendarGrid, eventRows: eventRows, community: community
+    eventCard: eventCard, anchors: anchors, featured: featured, program: program, calendarGrid: calendarGrid, eventRows: eventRows, community: community
   };
 }));
