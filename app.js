@@ -153,6 +153,44 @@
       '<g class="c-shift"><line x1="' + (mc + 4) + '" y1="' + ym + '" x2="' + (mi - 4) + '" y2="' + ym + '" marker-end="url(#arrow)"/></g>';
   })();
 
+  // ---------- hero map: simplified Boston with the Week's events lighting up ----------
+  (function () {
+    var svg = el("week-map");
+    if (!svg || typeof HERO_MAP === "undefined") return;
+    var M = HERO_MAP, b = M.bbox;
+    function my(lat) { return Math.log(Math.tan(Math.PI / 4 + (lat * Math.PI) / 360)); }
+    function project(lat, lng) {
+      return [((lng - b.w) / (b.e - b.w)) * M.width, ((my(b.n) - my(lat)) / (my(b.n) - my(b.s))) * M.height];
+    }
+    function inside(p) { return p[0] > -20 && p[0] < M.width + 20 && p[1] > -20 && p[1] < M.height + 20; }
+    svg.setAttribute("viewBox", "0 0 " + M.width + " " + M.height);
+    svg.setAttribute("preserveAspectRatio", "xMaxYMid slice");
+    var html = '<path class="hm-water" fill-rule="evenodd" d="' + M.water + '"/><path class="hm-coast" d="' + M.coast + '"/>';
+    places.forEach(function (p) {
+      if (p.lat == null) return;
+      var q = project(p.lat, p.lng); if (!inside(q)) return;
+      html += '<circle class="hm-place" cx="' + q[0].toFixed(1) + '" cy="' + q[1].toFixed(1) + '" r="3"/>';
+    });
+    var list = R.weekEvents(events, week).filter(function (e) { return e.lat != null; });
+    var pts = [], seen = {};
+    list.forEach(function (e) {
+      var q = project(e.lat, e.lng); if (!inside(q)) return;
+      // spread events that share a venue in a small ring
+      var key = q[0].toFixed(0) + "," + q[1].toFixed(0), n = (seen[key] = (seen[key] || 0) + 1);
+      if (n > 1) { var a = (n - 1) * 1.9; q = [q[0] + Math.cos(a) * 9, q[1] + Math.sin(a) * 9]; }
+      pts.push({ e: e, q: q });
+    });
+    var total = pts.length, period = Math.max(8, total * 1.6);
+    pts.forEach(function (p, i) {
+      var delay = ((i * period) / total).toFixed(2) + "s";
+      var x = p.q[0].toFixed(1), y = p.q[1].toFixed(1);
+      html += '<g class="hm-event' + (p.e.featured ? " hm-anchor" : "") + '" style="--d:' + delay + ';--p:' + period + 's">' +
+        '<circle class="hm-ring" cx="' + x + '" cy="' + y + '" r="' + (p.e.featured ? 11 : 7) + '"/>' +
+        '<circle class="hm-dot" cx="' + x + '" cy="' + y + '" r="' + (p.e.featured ? 6.5 : 4.5) + '"><title>' + esc(p.e.title) + "</title></circle></g>";
+    });
+    svg.innerHTML = html;
+  })();
+
   // ---------- nav: mark the section in view ----------
   var links = Array.prototype.slice.call(el("nav").querySelectorAll("a"));
   var sections = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });

@@ -1,6 +1,6 @@
 # Boston Longevity Hub
 
-Static site: `index.html`, `style.css`, `render.js`, `app.js`, `data.js`, plus `build.js` (optional prerender step).
+Static site: `index.html`, `style.css`, `render.js`, `app.js`, `data.js`, `hero-map.js`, plus `build.js` (prerender step).
 To open it locally, double-click `index.html` (the map and fonts are loaded from the network).
 
 ## How to update
@@ -32,6 +32,14 @@ In `SITE`, fill in one or more of:
 - `contactEmail` — used as a fallback for Join (opens a pre-filled e-mail) and shown as the contact address.
 - `eventFormUrl`, `placeFormUrl` — forms for submitting an event or adding a group; every
   "Submit an event" / "Add your group" link points there when set, and to the Join section otherwise.
+
+## Hero map
+
+The dark panel on the first screen has a simplified map of Boston behind it (`hero-map.js`: water and
+coastline from OpenStreetMap, already generated and committed). Event and organization dots are placed on it
+from `data.js` at load time, so nothing needs regenerating when events change. Only if you want to change the
+map frame or the level of detail, edit `BBOX` / `TOL` in `make-hero-map.js` and run `node make-hero-map.js`
+(downloads from the Overpass API, takes a minute or two). The map is hidden on screens narrower than 900px.
 
 ## Publishing
 
