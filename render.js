@@ -34,6 +34,10 @@
     return MONTHS_LONG[s.getMonth()] + " " + s.getDate() + "–" + t.getDate() + ", " + s.getFullYear();
   }
   function shortDay(k) { var d = toDate(k); return DAYS[d.getDay()] + ", " + MONTHS[d.getMonth()] + " " + d.getDate(); }
+  function dayHeading(k) {
+    var d = toDate(k);
+    return '<h3 class="day-heading"><span class="day-num">' + d.getDate() + '</span><span class="day-name"><span class="day-wd">' + DAYS_LONG[d.getDay()] + '</span><span class="day-mo">' + MONTHS_LONG[d.getMonth()] + " " + d.getFullYear() + "</span></span></h3>";
+  }
   function longDay(k) { var d = toDate(k); return DAYS_LONG[d.getDay()] + ", " + MONTHS_LONG[d.getMonth()] + " " + d.getDate(); }
 
   // ---------- data preparation ----------
@@ -130,7 +134,7 @@
       var starting = events.filter(function (e) { return e.start === k; });
       var continuing = events.filter(function (e) { return e.start < k && k <= e.end; });
       if (!starting.length && !continuing.length) continue;
-      html += '<section class="day-group" id="day-' + k + '"><h3 class="day-heading">' + longDay(k) + "</h3>";
+      html += '<section class="day-group" id="day-' + k + '">' + dayHeading(k);
       continuing.forEach(function (e) {
         var n = Math.round((toDate(k) - toDate(e.start)) / 864e5) + 1, total = Math.round((toDate(e.end) - toDate(e.start)) / 864e5) + 1;
         html += '<p class="continues"><a href="#' + e.id + '">' + esc(e.title) + "</a> continues · day " + n + " of " + total + "</p>";
@@ -140,7 +144,7 @@
     }
     var beyond = events.filter(function (e) { return beyondWeek(e, week); });
     if (beyond.length) {
-      html += '<section class="day-group" id="day-beyond"><h3 class="day-heading">And beyond</h3><p class="day-note">Events in the days after the Week.</p><div class="events">' + beyond.map(eventCard).join("") + "</div></section>";
+      html += '<section class="day-group" id="day-beyond"><h3 class="day-heading day-heading-text">And beyond</h3><p class="day-note">Events in the days after the Week.</p><div class="events">' + beyond.map(eventCard).join("") + "</div></section>";
     }
     return html;
   }

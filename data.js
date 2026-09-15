@@ -121,6 +121,18 @@ const EVENTS = [
     lat: 42.3616, lng: -71.0906
   },
   {
+    title: "Skin Aging Symposium",
+    subtitle: "Skincare science meets longevity",
+    start: "2026-10-04",
+    time: "6–9 PM",
+    type: "symposium",
+    venue: "650 E Kendall St, Cambridge",
+    host: "Longevity Global",
+    url: "https://luma.com/longevity-y6hb",
+    description: "A Longevity Global evening exploring the intersection of skincare science and longevity: an expert panel on protecting and treating the body's largest organ as we age, followed by extensive networking.",
+    lat: 42.3655, lng: -71.0790
+  },
+  {
     title: "Longevity Biotech Pitch Night",
     start: "2026-10-04",
     time: "1:30 PM - 6 PM",
@@ -157,6 +169,17 @@ const EVENTS = [
         { name: "Gerophysics Track", room: "Pechet", items: ["Gerophysics I", "Living Matter", "Theories of Aging", "Whiteboard Session"] }
       ] }
     ]
+  },
+  {
+    title: "Student Networking Reception",
+    subtitle: "For students in the aging space",
+    start: "2026-10-05",
+    time: "7–9 PM",
+    type: "networking",
+    venue: "Cambridge, MA",
+    host: "Boston Longevity Week, with Changemakers in Aging and The Aging Initiative",
+    url: "https://luma.com/d0quyu9d",
+    description: "A networking reception for students attending Boston Longevity Week and local undergraduate and graduate students interested in aging biology."
   },
   {
     title: "Boston LongevityTech Night",

@@ -135,9 +135,14 @@ p { margin: 0 0 1em; }
 .feat.is-past { background: var(--paper); border-color: var(--rose-line); box-shadow: none; }
 
 /* Week program: day by day */
-.program { display: grid; gap: 2rem; }
-.day-group { display: grid; gap: .8rem; scroll-margin-top: calc(var(--header) + .5rem); }
-.day-heading { font-size: 1.05rem; font-weight: 700; letter-spacing: .01em; color: var(--ink); padding-bottom: .5rem; border-bottom: 2px solid var(--ink); }
+.program { display: grid; gap: clamp(3rem, 6vw, 4.5rem); }
+.day-group { display: grid; gap: 1rem; scroll-margin-top: calc(var(--header) + .5rem); }
+.day-heading { display: flex; align-items: center; gap: 1rem; padding-bottom: .9rem; border-bottom: 3px solid var(--ink); }
+.day-num { font-size: clamp(2.6rem, 5vw, 3.6rem); font-weight: 800; letter-spacing: -.04em; line-height: 1; color: var(--crimson); font-variant-numeric: tabular-nums; }
+.day-name { display: grid; line-height: 1.15; }
+.day-wd { font-size: clamp(1.25rem, 2.2vw, 1.6rem); font-weight: 750; letter-spacing: -.02em; }
+.day-mo { font-size: .95rem; font-weight: 500; color: var(--muted); }
+.day-heading-text { font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 750; letter-spacing: -.02em; }
 .day-note { color: var(--muted); margin: -.3rem 0 0; font-size: .95rem; }
 .continues { margin: 0; padding: .55rem .9rem; font-size: .95rem; color: var(--muted); background: var(--paper); border: 1px dashed var(--rule); border-radius: 8px; }
 .continues a { color: var(--ink); font-weight: 600; }
