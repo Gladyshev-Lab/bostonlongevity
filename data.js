@@ -9,8 +9,10 @@ const SITE = {
   tagline: "Connecting Boston's aging and longevity community",
   contactEmail: "hello@bostonlongevity.org",          // e.g. "hello@bostonlongevity.org" — leave "" to hide
   joinFormUrl: "",           // mailing-list / sign-up form (Google Form, Buttondown, Mailchimp…), or ""
-  eventFormUrl: "",          // form for submitting an event, or "" (falls back to the Join section)
-  placeFormUrl: "",          // form for adding a company / organization, or "" (falls back to the Join section)
+  joinEmailParam: "email",   // query parameter that pre-fills the e-mail on that form:
+                             //   Buttondown "email", Mailchimp "MERGE0", Google Form "entry.NNNNNN" (from a pre-filled link)
+  eventFormUrl: "https://forms.gle/M2R6kWgDMNNwTn3ZA",          // form for submitting an event, or "" (falls back to the Join section)
+  placeFormUrl: "https://forms.gle/FMHDKD9p7DxjYi1V9",          // form for adding a company / organization, or "" (falls back to the Join section)
   map: { lat: 42.352, lng: -71.09, zoom: 12 },
 
   // Boston Longevity Week. Events that start between `start` and `end` form

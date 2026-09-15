@@ -25,7 +25,8 @@ const blocks = {
   program: R.program(events, ctx.SITE.week),
   grid: R.calendarGrid(upcoming, NOW),
   rows: R.eventRows(upcoming),
-  community: R.community(places)
+  community: R.community(places),
+  contact: ctx.SITE.contactEmail ? 'Questions? Write to <a href="mailto:' + R.esc(ctx.SITE.contactEmail) + '">' + R.esc(ctx.SITE.contactEmail) + "</a>." : ""
 };
 
 const file = path.join(dir, "index.html");

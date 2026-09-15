@@ -36,7 +36,7 @@
     joinForm.addEventListener("submit", function (ev) {
       ev.preventDefault();
       var u = new URL(SITE.joinFormUrl, location.href);
-      u.searchParams.set("email", el("join-email").value.trim());
+      u.searchParams.set(SITE.joinEmailParam || "email", el("join-email").value.trim());
       window.open(u.toString(), "_blank", "noopener");
     });
   } else if (SITE.contactEmail) {
