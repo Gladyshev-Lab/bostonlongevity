@@ -32,7 +32,10 @@
 
   // Join form: a mailing-list form if one is configured, otherwise an e-mail to the contact address.
   var joinForm = el("join-form"), joinNote = el("join-note");
-  if (SITE.joinFormUrl) {
+  el("newsletter").hidden = !SITE.newsletter;
+  if (!SITE.newsletter) {
+    // sign-up block is switched off in data.js; nothing to wire up
+  } else if (SITE.joinFormUrl) {
     joinForm.addEventListener("submit", function (ev) {
       ev.preventDefault();
       var u = new URL(SITE.joinFormUrl, location.href);

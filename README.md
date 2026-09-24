@@ -26,6 +26,7 @@ To preview the site as of a specific day: `index.html?today=2026-10-07`.
 
 ## Activating "Join" and submissions
 
+The e-mail sign-up block is off by default (`newsletter: false` in `SITE`). Set it to `true` once a mailing list exists.
 In `SITE`, fill in one or more of:
 
 - `joinFormUrl` — a mailing-list sign-up page (Google Form, Buttondown, Mailchimp…); the Join form sends people there.

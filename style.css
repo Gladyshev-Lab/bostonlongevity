@@ -271,6 +271,9 @@ p { margin: 0 0 1em; }
 
 /* Join + submissions */
 .join { background: var(--rose); border-top: 1px solid var(--rose-line); border-bottom: 1px solid var(--rose-line); }
+.join-inner[hidden] { display: none; }
+.submit-heading { margin-bottom: 1.25rem; }
+.join-inner:not([hidden]) + .submit-heading { display: none; }
 .join-inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.5rem 3rem; align-items: center; margin-bottom: clamp(2rem, 4vw, 3rem); }
 .join-copy { color: var(--ink-2); margin: .6rem 0 0; max-width: 46ch; }
 .join-form { display: flex; flex-wrap: wrap; gap: .6rem; }

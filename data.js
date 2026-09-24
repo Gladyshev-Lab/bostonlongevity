@@ -8,6 +8,7 @@ const SITE = {
   title: "Boston Longevity Hub",
   tagline: "Connecting Boston's aging and longevity community",
   contactEmail: "hello@bostonlongevity.org",          // e.g. "hello@bostonlongevity.org" — leave "" to hide
+  newsletter: false,         // true = show the "Join the community" e-mail sign-up block (needs joinFormUrl or contactEmail)
   joinFormUrl: "",           // mailing-list / sign-up form (Google Form, Buttondown, Mailchimp…), or ""
   joinEmailParam: "email",   // query parameter that pre-fills the e-mail on that form:
                              //   Buttondown "email", Mailchimp "MERGE0", Google Form "entry.NNNNNN" (from a pre-filled link)
