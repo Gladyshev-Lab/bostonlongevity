@@ -217,7 +217,7 @@ const EVENTS = [
     venue: "Veritas Science Center, Joseph B. Martin Conference Center at Harvard Medical School",
     host: "Biomarkers of Aging Consortium",
     url: "https://www.agingconsortium.org/reproductive-aging-symposium-2026",
-    description: "An afternoon of talks on biomarkers of reproductive aging, with speakers from institutions in the US and Israel.",
+    description: "In collaboration with the Biomarkers of Aging Consortium, the symposium will bring together leading scientists across aging, reproductive biology, fertility, genomics, biomarker science, and AI/computational biology to explore how reproductive aging can be measured, modeled, and ultimately targeted through biomarker-driven approaches.",
     lat: 42.3386, lng: -71.1028
   },
   {
